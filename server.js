@@ -149,7 +149,7 @@ app.put('/admin/appointments/:id/status', authMiddleware, async (req, res) => {
 });
 
 // Catch-all route to serve index.html for unknown GET requests
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
