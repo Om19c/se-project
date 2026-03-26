@@ -1,0 +1,192 @@
+/* Professional Medical Theme Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #0d6efd; /* Medical Blue */
+  --primary-hover: #0b5ed7;
+  --bg-light: #f8f9fa;
+  --text-dark: #212529;
+  --text-muted: #6c757d;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.12);
+  --transition: all 0.3s ease-in-out;
+  --font-family: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.medical-navbar {
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 0;
+}
+
+.medical-navbar .navbar-brand {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+.medical-navbar .nav-link {
+  font-weight: 500;
+  color: var(--text-dark);
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.medical-navbar .nav-link:hover,
+.medical-navbar .nav-link.active {
+  color: var(--primary-color);
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Authentication Pages */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-light);
+}
+
+.auth-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Main Container */
+.main-content {
+  flex: 1;
+  padding: 2.5rem 0;
+}
+
+/* Cards */
+.doctor-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+  cursor: pointer;
+  overflow: hidden;
+  height: 100%;
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(13, 110, 253, 0.3);
+}
+
+.doctor-img-top {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 1.5rem auto 0.5rem;
+  border: 3px solid #f8f9fa;
+  box-shadow: var(--shadow-sm);
+}
+
+.appt-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  transition: var(--transition);
+  margin-bottom: 1rem;
+}
+
+.appt-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Forms & Inputs */
+.premium-input {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: var(--transition);
+  font-family: var(--font-family);
+}
+
+.premium-input:focus {
+  background-color: #ffffff;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+}
+
+/* Buttons */
+.premium-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.premium-btn:hover {
+  background-color: var(--primary-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  border-radius: var(--border-radius);
+  padding: 3rem 2rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Modals */
+.modal-content {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-hover);
+}
+.modal-header {
+  border-bottom: 1px solid #f1f3f5;
+}
+.modal-footer {
+  border-top: 1px solid #f1f3f5;
+}
+
+/* Utilities */
+.text-primary { color: var(--primary-color) !important; }
+.bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); color: var(--primary-color); }
+.custom-link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+.custom-link:hover { text-decoration: underline; color: var(--primary-hover); }
+.fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

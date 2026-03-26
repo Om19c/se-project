@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare - Professional Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="navbar navbar-expand-lg medical-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+        MediCare
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-2">
+          
+          <!-- User Links -->
+          <li class="nav-item user-only d-none">
+            <a class="nav-link active" id="nav-home" onclick="showSection('home')">Our Doctors</a>
+          </li>
+          <li class="nav-item user-only d-none">
+            <a class="nav-link" id="nav-book" onclick="showSection('book')">Book Appointment</a>
+          </li>
+          <li class="nav-item user-only d-none">
+            <a class="nav-link" id="nav-schedule" onclick="showSection('view'); fetchAppointments();">My Schedule</a>
+          </li>
+
+          <!-- Admin Links -->
+          <li class="nav-item admin-only d-none">
+            <a class="nav-link active" id="nav-admin" onclick="showSection('admin'); fetchAdminAppointments();">Admin Dashboard</a>
+          </li>
+
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-3 d-flex align-items-center">
+            <button class="btn btn-outline-danger btn-sm px-3 fw-bold rounded-pill" onclick="logout()">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-content">
+    <!-- Alerts -->
+    <div id="alertContainer"></div>
+
+    <!-- Home Section (Doctor List) -->
+    <div id="homeSection" class="fade-in" style="display: none;">
+      <div class="hero-section text-center">
+        <h2 class="fw-bold mb-3">Welcome to MediCare Hospital</h2>
+        <p class="lead mb-0 opacity-75">Providing world-class healthcare, expert doctors, and compassionate service to you and your family.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0 text-dark">Meet Our Specialists</h4>
+      </div>
+      <div class="row g-4" id="doctorListContainer"></div>
+    </div>
+
+    <!-- Book Section (Form) -->
+    <div id="bookSection" class="fade-in" style="display: none;">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm p-4 p-md-5" style="border-radius: var(--border-radius)">
+            <h3 class="fw-bold mb-4 text-center text-dark">Schedule an Appointment</h3>
+            <form id="bookForm">
+              <div class="row g-3">
+                <div class="col-md-8">
+                  <label class="form-label fw-bold small text-muted">Patient Full Name</label>
+                  <input type="text" class="form-control premium-input" id="patientName" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-bold small text-muted">Age</label>
+                  <input type="number" class="form-control premium-input" id="age" placeholder="25" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-bold small text-muted">Select Specialist</label>
+                  <select class="form-select premium-input" id="doctor" required>
+                    <option value="" disabled selected>Choose a trusted doctor...</option>
+                    <option value="Dr. Martin Carder">Dr. Martin Carder - Dentist</option>
+                    <option value="Dr. Sylvia">Dr. Sylvia - General Practitioner</option>
+                    <option value="Dr. John Smith">Dr. John Smith - Cardiologist</option>
+                    <option value="Dr. Patil">Dr. Patil - Orthopedics</option>
+                    <option value="Dr. Baviskar">Dr. Baviskar - Pediatrician</option>
+                    <option value="Dr. Bhoite">Dr. Bhoite - Neurologist</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-muted">Date</label>
+                  <input type="date" class="form-control premium-input" id="date" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-muted">Time</label>
+                  <input type="time" class="form-control premium-input" id="time" required>
+                </div>
+                <div class="col-12 mt-4 pt-2 border-top">
+                  <button type="submit" class="premium-btn w-100 py-3">Confirm Appointment</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Section (Appointments List) -->
+    <div id="viewSection" class="fade-in" style="display: none;">
+      <h3 class="fw-bold mb-4">My Scheduled Appointments</h3>
+      <div class="row g-4" id="appointmentsList">
+        <div class="col-12 text-center text-muted mt-5"><p>Loading...</p></div>
+      </div>
+    </div>
+
+    <!-- Admin Section (All Appointments) -->
+    <div id="adminSection" class="fade-in" style="display: none;">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Admin Dashboard</h3>
+        <span class="badge bg-primary px-3 py-2">Managing All Appointments</span>
+      </div>
+      <div class="card border-0 shadow-sm p-3" style="border-radius: var(--border-radius)">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="py-3 px-4">Patient Info</th>
+                <th class="py-3 px-4">Doctor</th>
+                <th class="py-3 px-4">Schedule</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminAppointmentsList">
+              <tr><td colspan="5" class="text-center text-muted py-5">Loading appointments...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-top py-4 mt-auto">
+    <div class="container text-center text-muted small">
+      <p class="mb-0">&copy; 2026 MediCare Hospital. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Doctor Detail Modal -->
+  <div class="modal fade" id="doctorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center pt-0 px-4">
+          <img id="modalDocImg" src="" class="avatar-lg mb-3 mx-auto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg-light)" alt="Doctor">
+          <h4 id="modalDocName" class="fw-bold mb-1 text-dark"></h4>
+          <p id="modalDocSpec" class="text-primary mb-3 fw-bold"></p>
+          
+          <div class="d-flex justify-content-center gap-4 mb-4 bg-light py-3 rounded-3">
+            <div>
+              <h5 class="mb-0 fw-bold text-dark" id="modalDocRating"></h5>
+              <small class="text-muted">Rating</small>
+            </div>
+            <div class="border-start border-end px-4">
+              <h5 class="mb-0 fw-bold text-dark" id="modalDocExp"></h5>
+              <small class="text-muted">Experience</small>
+            </div>
+            <div>
+              <h5 class="mb-0 fw-bold text-dark" id="modalDocPatients"></h5>
+              <small class="text-muted">Patients</small>
+            </div>
+          </div>
+          
+          <div class="text-start">
+            <h6 class="fw-bold text-dark border-bottom pb-2">Professional Biography</h6>
+            <p id="modalDocBio" class="text-muted small mt-2"></p>
+          </div>
+        </div>
+        <div class="modal-footer border-0 px-4 pb-4">
+          <button type="button" class="premium-btn w-100" id="modalBookBtn" onclick="bookFromModal()">Proceed to Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

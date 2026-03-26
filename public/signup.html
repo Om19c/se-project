@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare - Patient Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div class="auth-wrapper">
+    <div class="fade-in w-100 d-flex justify-content-center px-3">
+      <div class="auth-card">
+        <div class="text-center mb-5">
+          <svg viewBox="0 0 24 24" fill="#0d6efd" width="55" height="55" class="mb-3"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+          <h3 class="fw-bold text-dark">Patient Registration</h3>
+          <p class="text-muted small">Create an account to manage your health.</p>
+        </div>
+        
+        <div id="alertContainer"></div>
+
+        <form id="signupForm">
+          <div class="mb-3">
+            <label class="form-label text-dark fw-bold small ms-1">Email Address</label>
+            <input type="email" class="form-control premium-input" id="email" placeholder="john@example.com" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-dark fw-bold small ms-1">Password</label>
+            <input type="password" class="form-control premium-input" id="password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="premium-btn w-100 py-2">Create Account</button>
+        </form>
+        
+        <div class="text-center mt-4">
+          <p class="mb-0 text-muted small">Already a patient? <a href="login.html" class="custom-link">Login Here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
