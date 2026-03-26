@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = '';
 
 const doctors = [
   { id: 'Dr. Sarah Jenkins', name: 'Dr. Sarah Jenkins', spec: 'Cardiologist', rating: '4.9', exp: '15 Yrs', patients: '3.2K+', bio: 'Dr. Sarah Jenkins is a board-certified cardiologist with over 15 years of experience in diagnosing and treating cardiovascular diseases.', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
