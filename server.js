@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secretkey123';
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Serve frontend static files
+app.use(express.static(path.join(__dirname, 'public'))); // Serve frontend static files
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
@@ -145,6 +146,11 @@ app.put('/admin/appointments/:id/status', authMiddleware, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
+});
+
+// Catch-all route to serve index.html for unknown GET requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start Server
