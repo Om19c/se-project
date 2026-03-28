@@ -13,7 +13,7 @@ let currentModalDoctorId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
-  const isAuthPage = path.includes('login') || path.includes('signup');
+  const isAuthPage = path.includes('login') || path.includes('signup') || path.includes('forgot-password') || path.includes('reset-password');
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role') || 'user';
 
@@ -29,12 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  ['signupForm', 'loginForm', 'bookForm'].forEach(id => {
+  ['signupForm', 'loginForm', 'bookForm', 'forgotPasswordForm', 'resetPasswordForm'].forEach(id => {
     const form = document.getElementById(id);
     if (form) {
       if(id === 'signupForm') form.addEventListener('submit', handleSignup);
       if(id === 'loginForm') form.addEventListener('submit', handleLogin);
       if(id === 'bookForm') form.addEventListener('submit', handleBooking);
+      if(id === 'forgotPasswordForm') form.addEventListener('submit', handleForgotPassword);
+      if(id === 'resetPasswordForm') form.addEventListener('submit', handleResetPassword);
     }
   });
 });
@@ -151,6 +153,44 @@ function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
   window.location.href = 'login.html';
+}
+
+async function handleForgotPassword(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  try {
+    const res = await fetch(`${API_URL}/forgot-password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    const data = await res.json();
+    if (res.ok) {
+      // In a real application, an email would be sent here.
+      // For demo purposes, we redirect manually with token.
+      showAlert(`Token generated: ${data.token}. Redirecting to reset page...`, 'success');
+      setTimeout(() => { window.location.href = `reset-password.html?token=${data.token}`; }, 3000);
+    } else showAlert(data.message || 'Error processing request', 'danger');
+  } catch (err) { showAlert('Server error occurred', 'danger'); }
+}
+
+async function handleResetPassword(e) {
+  e.preventDefault();
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (newPassword !== confirmPassword) {
+    return showAlert('Passwords do not match.', 'danger');
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  if (!token) return showAlert('No reset token provided.', 'danger');
+
+  try {
+    const res = await fetch(`${API_URL}/reset-password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, newPassword }) });
+    const data = await res.json();
+    if (res.ok) {
+      showAlert('Password reset successfully! Redirecting...', 'success');
+      setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+    } else showAlert(data.message || 'Error resetting password', 'danger');
+  } catch (err) { showAlert('Server error occurred', 'danger'); }
 }
 
 // Appointment Posting (User)
